@@ -6,8 +6,6 @@ import itertools
 import streamlit as st
 import streamlit.components.v1 as components
 import numpy as np
-import paramiko
-from scp import SCPClient
 
 
 def load_specnames():
