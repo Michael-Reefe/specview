@@ -25,7 +25,7 @@ def main():
     st.title('Spectra viewer')
     names = load_specnames()
 
-    id = st.number_input('Please enter Spec Object ID:', 0., max(names).astype(float), 0., 1., "%d")
+    id = st.number_input('Please enter Spec Object ID:', 0., float('9'*64), 0., 1., "%d")
     scpcmd = 'scp -i id_rsa mreefe@argo.orc.gmu.edu:/projects/ssatyapa/spectra/mreefe/results.SDSS/FeVII_6087/*/*/'+str(int(id))+'.spectrum.html ./spectra/'
     if not os.path.exists('spectra/'+str(int(id))+'.spectrum.html'):
         try:
