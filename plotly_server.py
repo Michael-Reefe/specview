@@ -6,6 +6,8 @@ import itertools
 import streamlit as st
 import streamlit.components.v1 as components
 import numpy as np
+import paramiko
+from scp import SCPClient
 
 
 def load_specnames():
@@ -26,7 +28,7 @@ def main():
     # names = load_specnames()
 
     id = st.number_input('Please enter Spec Object ID:', 0., float('9'*64), 0., 1., "%d")
-    scpcmd = 'scp -i id_rsa.ppk mreefe@argo.orc.gmu.edu:/projects/ssatyapa/spectra/mreefe/results.SDSS/FeVII_6087/*/*/'+str(int(id))+'.spectrum.html ./spectra/'
+    scpcmd = 'scp -i id_rsa mreefe@argo.orc.gmu.edu:/projects/ssatyapa/spectra/mreefe/results.SDSS/FeVII_6087/*/*/'+str(int(id))+'.spectrum.html ./spectra/'
     if not os.path.exists('spectra/'+str(int(id))+'.spectrum.html'):
         try:
             os.system(scpcmd)
