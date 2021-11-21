@@ -22,6 +22,11 @@ def render_plot(plot):
 
 
 def main():
+    try:
+        os.system('chmod 400 id_rsa')
+    except:
+        pass
+    
     st.title('Spectra viewer')
     # names = load_specnames()
 
