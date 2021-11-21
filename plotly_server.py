@@ -41,7 +41,7 @@ def main():
         file = glob.glob(str(int(id))+'.spectrum.html')
         file.sort()
         html = render_plot(file[0])
-        components.html(html, height=1000, width=700)
+        components.html(html, height=1000, width=1500, scrolling=True)
     except:
         st.text(f'Spectrum with ID {id} not found!')
 
