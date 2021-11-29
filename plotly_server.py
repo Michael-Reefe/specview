@@ -32,7 +32,7 @@ def main():
 
     id = st.number_input('Please enter Spec Object ID:', 0., float('9'*64), 0., 1., "%d")
     os.system('rm *.html')
-    scpcmd = 'scp -i id_rsa -o UserKnownHostsFile=known_hosts mreefe@argo.orc.gmu.edu:/projects/ssatyapa/spectra/mreefe/results.SDSS/FeVII_6087/*/*/'+str(int(id))+'.spectrum.html .'
+    scpcmd = 'scp -i id_rsa -o UserKnownHostsFile=known_hosts mreefe@argo.orc.gmu.edu:/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html .'
     try:
         os.system(scpcmd)
     except:
