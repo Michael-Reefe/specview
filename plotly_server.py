@@ -45,7 +45,7 @@ def main():
     def search(line):
         try:
             scp.get(f'/projects/ssatyapa/spectra/mreefe/results.SDSS/{line}/*/*/'+str(int(id))+'.spectrum.html',
-                    local_path='.')
+                    local_path=__file__)
             return True
         except:
             return False
