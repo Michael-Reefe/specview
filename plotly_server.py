@@ -42,8 +42,9 @@ def main():
     scp = SCPClient(ssh.get_transport())
     try:
         scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html')
-    except:
+    except Exception as e:
         st.text(f'Spectrum with ID {id} not found!')
+        print(e)
     else:
         file = []
         texts = ['Generating spectrum.', 'Generating spectrum..', 'Generating spectrum...']
