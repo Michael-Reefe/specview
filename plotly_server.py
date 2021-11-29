@@ -42,7 +42,7 @@ def main():
 
     id = st.number_input('Please enter Spec Object ID:', 0., float('9'*64), 0., 1., "%d")
     os.system('rm *.html')
-    password = os.enviro("ARGO_PASSWD")
+    password = os.environ["ARGO_PASSWD"]
     ssh = createSSHClient('argo.orc.gmu.edu', 22, 'mreefe', password)
     scp = SCPClient(ssh.get_transport())
     scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html')
