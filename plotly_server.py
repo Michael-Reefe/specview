@@ -49,7 +49,7 @@ def main():
             return True
         except:
             return False
-    results = Parallel(njobs=len(lines))(delayed(search)(l for l in lines))
+    results = Parallel(n_jobs=len(lines))(delayed(search)(l for l in lines))
     if any(results):
         file = glob.glob(str(int(id))+'.spectrum.html')
         file.sort()
