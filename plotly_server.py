@@ -6,7 +6,6 @@ import itertools
 import streamlit as st
 import streamlit.components.v1 as components
 import numpy as np
-from joblib import Parallel, delayed, parallel_backend
 
 import paramiko
 from scp import SCPClient
@@ -41,23 +40,17 @@ def main():
     password = os.environ["ARGO_PASSWD"]
     ssh = createSSHClient('argo.orc.gmu.edu', 22, 'mreefe', password)
     scp = SCPClient(ssh.get_transport(), sanitize=lambda x: x, socket_timeout=5*60)
-    lines = ['ArX_5533', 'CaV_5309', 'FeVI_5335', 'FeVII_5276', 'FeVII_5720', 'FeVII_6087', 'FeX_6374', 'FeXI_7892', 'FeXIV_5303']
-    def search(line):
-        try:
-            scp.get(f'/projects/ssatyapa/spectra/mreefe/results.SDSS/{line}/*/*/'+str(int(id))+'.spectrum.html',
-                    local_path=__file__)
-            return True
-        except:
-            return False
-    # with parallel_backend('threading', n_jobs=len(lines)):
-    results = Parallel(n_jobs=len(lines))(delayed(search)(l) for l in lines)
-    if any(results):
+    try:
+        scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html',
+                local_path='.')
+    except Exception as e:
+        st.text(f'Spectrum with ID {id} not found!')
+        print(e)
+    else:
         file = glob.glob(str(int(id))+'.spectrum.html')
         file.sort()
         html = render_plot(file[0])
         components.html(html, height=700, width=700)
-    else:
-        st.text(f'Spectrum with ID {int(id)} not found!')
 
 if __name__ == '__main__':
     main()
