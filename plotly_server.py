@@ -39,24 +39,25 @@ def main():
     os.system('rm *.html')
     password = os.environ["ARGO_PASSWD"]
     ssh = createSSHClient('argo.orc.gmu.edu', 22, 'mreefe', password)
-    scp = SCPClient(ssh.get_transport())
-    # try:
-    scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html')
-    # except Exception as e:
-    # st.text(f'Spectrum with ID {id} not found!')
-    # print(e)
-    # else:
-    file = []
-    texts = ['Generating spectrum.', 'Generating spectrum..', 'Generating spectrum...']
-    i = 0
-    while len(file) == 0:
-        file = glob.glob(str(int(id))+'.spectrum.html')
-        time.sleep(1)
-        st.text(texts[i % 3])
-        i += 1
-    file.sort()
-    html = render_plot(file[0])
-    components.html(html, height=700, width=700)
+    scp = SCPClient(ssh.get_transport(), sanitize=lambda x: x)
+    try:
+        scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html',
+                local_path='.')
+    except Exception as e:
+        st.text(f'Spectrum with ID {id} not found!')
+        print(e)
+    else:
+        file = []
+        texts = ['Generating spectrum.', 'Generating spectrum..', 'Generating spectrum...']
+        i = 0
+        while len(file) == 0:
+            file = glob.glob(str(int(id))+'.spectrum.html')
+            time.sleep(1)
+            st.text(texts[i % 3])
+            i += 1
+        file.sort()
+        html = render_plot(file[0])
+        components.html(html, height=700, width=700)
 
 if __name__ == '__main__':
     main()
