@@ -32,11 +32,6 @@ def createSSHClient(server, port, user, password):
 
 
 def main():
-    try:
-        os.system('chmod 400 id_rsa')
-    except:
-        pass
-
     st.title('Spectra viewer')
     # names = load_specnames()
 
@@ -48,15 +43,19 @@ def main():
     try:
         scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html')
     except:
-        pass
-    # scpcmd = 'scp -i id_rsa -o UserKnownHostsFile=known_hosts mreefe@argo.orc.gmu.edu:/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html .'
-    try:
-        file = glob.glob(str(int(id))+'.spectrum.html')
+        st.text(f'Spectrum with ID {id} not found!')
+    else:
+        file = []
+        texts = ['Generating spectrum.', 'Generating spectrum..', 'Generating spectrum...']
+        i = 0
+        while len(file) == 0:
+            file = glob.glob(str(int(id))+'.spectrum.html')
+            time.sleep(1)
+            st.text(texts[i % 3])
+            i += 1
         file.sort()
         html = render_plot(file[0])
         components.html(html, height=700, width=700)
-    except:
-        st.text(f'Spectrum with ID {id} not found!')
 
 if __name__ == '__main__':
     main()
