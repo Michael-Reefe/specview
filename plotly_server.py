@@ -45,12 +45,11 @@ def main():
     password = os.environ["ARGO_PASSWD"]
     ssh = createSSHClient('argo.orc.gmu.edu', 22, 'mreefe', password)
     scp = SCPClient(ssh.get_transport())
-    scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html')
+    try:
+        scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html')
+    except:
+        pass
     # scpcmd = 'scp -i id_rsa -o UserKnownHostsFile=known_hosts mreefe@argo.orc.gmu.edu:/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html .'
-    # try:
-    #     os.system(scpcmd)
-    # except:
-    #     pass
     try:
         file = glob.glob(str(int(id))+'.spectrum.html')
         file.sort()
