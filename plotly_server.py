@@ -39,7 +39,7 @@ def main():
     os.system('rm *.html')
     password = os.environ["ARGO_PASSWD"]
     ssh = createSSHClient('argo.orc.gmu.edu', 22, 'mreefe', password)
-    scp = SCPClient(ssh.get_transport(), sanitize=lambda x: x)
+    scp = SCPClient(ssh.get_transport(), sanitize=lambda x: x, socket_timeout=5*60)
     # try:
     scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html',
             local_path='.')
