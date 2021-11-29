@@ -49,8 +49,8 @@ def main():
             return True
         except:
             return False
-    with parallel_backend('threading', n_jobs=len(lines)):
-        results = Parallel()(delayed(search)(l) for l in lines)
+    # with parallel_backend('threading', n_jobs=len(lines)):
+    results = Parallel(n_jobs=len(lines))(delayed(search)(l) for l in lines)
     if any(results):
         file = glob.glob(str(int(id))+'.spectrum.html')
         file.sort()
