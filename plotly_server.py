@@ -44,7 +44,7 @@ def main():
 
     st.markdown("# Please specify the coronal line and wavelength to consider: ")
     line = st.text_input("Name: ", "Fe VII")
-    wave = st.number_input("Wavelength: ", int(6087), int(9999), int(0), int(1), "%d")
+    wave = st.number_input("Wavelength: ", int(0), int(9999), int(6087), int(1), "%d")
 
     try:
         scp.get(f'/projects/ssatyapa/spectra/mreefe/results.SDSS/{line.strip()}_{wave}/*/*/'+str(int(id))+'.spectrum.html',
