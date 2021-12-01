@@ -47,10 +47,10 @@ def main():
     wave = st.number_input("Wavelength: ", int(0), int(9999), int(6087), int(1), "%d")
 
     try:
-        scp.get(f'/projects/ssatyapa/spectra/mreefe/results.SDSS/{line.strip()}_{wave}/*/*/'+str(int(id))+'.spectrum.html',
+        scp.get(f'/projects/ssatyapa/spectra/mreefe/results.SDSS/{line.replace(" ", "")}_{wave}/*/*/'+str(int(id))+'.spectrum.html',
                 local_path='.')
     except Exception as e:
-        st.text(f'Spectrum with ID {id} not found in {line.strip()}_{wave}!')
+        st.text(f'Spectrum with ID {id} not found in {line.replace(" ", "")}_{wave}!')
         print(e)
     else:
         file = glob.glob(str(int(id))+'.spectrum.html')
