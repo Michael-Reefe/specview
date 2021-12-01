@@ -35,16 +35,22 @@ def main():
     st.title('Spectra viewer')
     # names = load_specnames()
 
-    id = st.number_input('Please enter Spec Object ID:', 0., float('9'*64), 0., 1., "%d")
+    st.markdown("# Please enter Spec Object ID: ")
+    id = st.number_input('ID: ', 0., float('9'*64), 0., 1., "%d")
     os.system('rm *.html')
     password = os.environ["ARGO_PASSWD"]
     ssh = createSSHClient('argo.orc.gmu.edu', 22, 'mreefe', password)
     scp = SCPClient(ssh.get_transport(), sanitize=lambda x: x, socket_timeout=5*60)
+
+    st.markdown("# Please specify the coronal line and wavelength to consider: ")
+    line = st.text_input("Name: ", "Fe VII")
+    wave = st.number_input("Wavelength: ", 6087, 9999, 0, "%d")
+
     try:
-        scp.get('/projects/ssatyapa/spectra/mreefe/results.SDSS/*/*/*/'+str(int(id))+'.spectrum.html',
+        scp.get(f'/projects/ssatyapa/spectra/mreefe/results.SDSS/{line.strip()}_{wave}/*/*/'+str(int(id))+'.spectrum.html',
                 local_path='.')
     except Exception as e:
-        st.text(f'Spectrum with ID {id} not found!')
+        st.text(f'Spectrum with ID {id} not found in {line.strip()}_{wave}!')
         print(e)
     else:
         file = glob.glob(str(int(id))+'.spectrum.html')
